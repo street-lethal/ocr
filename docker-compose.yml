@@ -1,0 +1,9 @@
+version: '3.2'
+
+services:
+  ocr:
+    build: .
+    working_dir: /app_root
+    volumes:
+      - ./work:/app_root/work
+      - ./scripts_in_docker:/app_root/scripts_in_docker
