@@ -1,17 +1,20 @@
 #!/bin/bash
-cd work
-ls *.zip > zips.txt
-while read zip
+
+cd work || exit
+ls ./*.zip > zips.txt
+while read -r zip
 do
-  export filename=$(echo $zip | sed -e "s/.zip$//")
+  declare filename
+  filename=${zip//.zip/}
   mkdir "$filename"
-  cd "$filename"
+  cd "$filename" || exit
   unzip "../$zip"
 
-  ls *.jpg > jpgs.txt
-  while read jpg
+  ls ./*.jpg > jpgs.txt
+  while read -r jpg
   do
-    export imagename=$(echo $jpg | sed -e "s/.jpg$//")
+    declare imagename
+    imagename=${jpg//.jpg/}
     tesseract -l jpn+eng "$jpg" "$imagename"
     rm "$jpg"
   done < jpgs.txt
